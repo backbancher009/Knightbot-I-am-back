@@ -4,9 +4,9 @@ const path = require('path');
 
 async function helpCommand(sock, chatId, message) {
 
-const botName = settings.botName || 'KnightBot-MD';
+const botName = settings.botName || '𝐙𝐀𝐇𝐈𝐃-𝐁𝐎𝐓';
 const version = settings.version || '3.0.0';
-const owner = settings.botOwner || 'Mr Unique Hacker';
+const owner = settings.botOwner || '𝐙𝐀𝐇𝐈𝐃-𝐁𝐎𝐓';
 
 const helpMessage = `
 ╭━━━〔 🤖 ${botName} 〕━━━⬣
