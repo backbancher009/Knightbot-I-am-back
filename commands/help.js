@@ -3,109 +3,130 @@ const fs = require('fs');
 const path = require('path');
 
 async function helpCommand(sock, chatId, message) {
-    const helpMessage = `
-╔═══════════════════╗
-   *🤖 ${settings.botName || 'KnightBot-MD'}*  
-   Version: *${settings.version || '3.0.0'}*
-   by ${settings.botOwner || 'Mr Unique Hacker'}
-   YT : ${global.ytch}
-╚═══════════════════╝
 
-*Available Commands:*
+const botName = settings.botName || 'KnightBot-MD';
+const version = settings.version || '3.0.0';
+const owner = settings.botOwner || 'Mr Unique Hacker';
 
-╔═══════════════════╗
-🌐 *General Commands*:
-║ ➤ .help or .menu
-║ ➤ .ping
-║ ➤ .alive
-║ ➤ .tts <text>
-║ ➤ .owner
-║ ➤ .joke
-║ ➤ .quote
-║ ➤ .fact
-║ ➤ .weather <city>
-║ ➤ .news
-║ ➤ .attp <text>
-║ ➤ .lyrics <song_title>
-║ ➤ .8ball <question>
-║ ➤ .groupinfo
-║ ➤ .staff or .admins 
-║ ➤ .vv
-║ ➤ .trt <text> <lang>
-║ ➤ .ss <link>
-║ ➤ .jid
-║ ➤ .url
-╚═══════════════════╝ 
+const helpMessage = `
+╭━━━〔 🤖 ${botName} 〕━━━⬣
+┃ ✦ Version : ${version}
+┃ ✦ Owner   : ${owner}
+┃ ✦ Status  : 🟢 Online
+╰━━━━━━━━━━━━━━⬣
 
-╔═══════════════════╗
-👮‍♂️ *Admin Commands*:
-║ ➤ .ban @user
-║ ➤ .promote @user
-║ ➤ .demote @user
-║ ➤ .mute <minutes>
-║ ➤ .unmute
-║ ➤ .delete or .del
-║ ➤ .kick @user
-║ ➤ .warnings @user
-║ ➤ .warn @user
-║ ➤ .antilink
-║ ➤ .antibadword
-║ ➤ .clear
-║ ➤ .tag <message>
-║ ➤ .tagall
-║ ➤ .tagnotadmin
-║ ➤ .hidetag <message>
-║ ➤ .chatbot
-║ ➤ .resetlink
-║ ➤ .antitag <on/off>
-║ ➤ .welcome <on/off>
-║ ➤ .goodbye <on/off>
-║ ➤ .setgdesc <description>
-║ ➤ .setgname <new name>
-║ ➤ .setgpp (reply to image)
-╚═══════════════════╝
+╭━━━〔 📌 GENERAL 〕━━━⬣
+┃ ⬡ .help / .menu
+┃ ⬡ .ping / .alive
+┃ ⬡ .tts / .owner
+┃ ⬡ .joke / .quote / .fact
+┃ ⬡ .weather / .news
+┃ ⬡ .lyrics / .8ball
+┃ ⬡ .groupinfo / .admins
+╰━━━━━━━━━━━━━━⬣
 
-╔═══════════════════╗
-🔒 *Owner Commands*:
-║ ➤ .mode <public/private>
-║ ➤ .clearsession
-║ ➤ .antidelete
-║ ➤ .cleartmp
-║ ➤ .update
-║ ➤ .settings
-║ ➤ .setpp <reply to image>
-║ ➤ .autoreact <on/off>
-║ ➤ .autostatus <on/off>
-║ ➤ .autostatus react <on/off>
-║ ➤ .autotyping <on/off>
-║ ➤ .autoread <on/off>
-║ ➤ .anticall <on/off>
-║ ➤ .pmblocker <on/off/status>
-║ ➤ .pmblocker setmsg <text>
-║ ➤ .setmention <reply to msg>
-║ ➤ .mention <on/off>
-╚═══════════════════╝
+╭━━━〔 👑 ADMIN 〕━━━⬣
+┃ ⬡ .ban / .kick
+┃ ⬡ .promote / .demote
+┃ ⬡ .mute / .unmute
+┃ ⬡ .delete / .warn
+┃ ⬡ .antilink / .antibadword
+┃ ⬡ .tagall / .hidetag
+┃ ⬡ .welcome / .goodbye
+┃ ⬡ .setgname / .setgdesc
+╰━━━━━━━━━━━━━━⬣
 
-╔═══════════════════╗
-🎨 *Image/Sticker Commands*:
-║ ➤ .blur <image>
-║ ➤ .simage <reply to sticker>
-║ ➤ .sticker <reply to image>
-║ ➤ .removebg
-║ ➤ .remini
-║ ➤ .crop <reply to image>
-║ ➤ .tgsticker <Link>
-║ ➤ .meme
-║ ➤ .take <packname> 
-║ ➤ .emojimix <emj1>+<emj2>
-║ ➤ .igs <insta link>
-║ ➤ .igsc <insta link>
-╚═══════════════════╝  
+╭━━━〔 🔒 OWNER 〕━━━⬣
+┃ ⬡ .mode / .update
+┃ ⬡ .antidelete
+┃ ⬡ .autoreact / .autostatus
+┃ ⬡ .autotyping / .autoread
+┃ ⬡ .anticall / .pmblocker
+┃ ⬡ .settings
+╰━━━━━━━━━━━━━━⬣
 
-╔═══════════════════╗
-🖼️ *Pies Commands*:
-║ ➤ .pies <country>
-║ ➤ .china 
+╭━━━〔 🎨 MEDIA 〕━━━⬣
+┃ ⬡ .sticker / .removebg
+┃ ⬡ .remini / .crop
+┃ ⬡ .meme / .take
+┃ ⬡ .emojimix
+╰━━━━━━━━━━━━━━⬣
+
+╭━━━〔 🎮 GAMES 〕━━━⬣
+┃ ⬡ .tictactoe
+┃ ⬡ .hangman / .guess
+┃ ⬡ .trivia / .answer
+┃ ⬡ .truth / .dare
+╰━━━━━━━━━━━━━━⬣
+
+╭━━━〔 🤖 AI 〕━━━⬣
+┃ ⬡ .gpt / .gemini
+┃ ⬡ .imagine / .flux
+┃ ⬡ .sora
+╰━━━━━━━━━━━━━━⬣
+
+╭━━━〔 🎯 FUN 〕━━━⬣
+┃ ⬡ .compliment / .insult
+┃ ⬡ .flirt / .shayari
+┃ ⬡ .ship / .simp
+┃ ⬡ .character
+╰━━━━━━━━━━━━━━⬣
+
+╭━━━〔 📥 DOWNLOADER 〕━━━⬣
+┃ ⬡ .play / .song
+┃ ⬡ .spotify
+┃ ⬡ .facebook / .instagram
+┃ ⬡ .tiktok / .ytmp4
+╰━━━━━━━━━━━━━━⬣
+
+╭━━━〔 💻 GITHUB 〕━━━⬣
+┃ ⬡ .git / .repo
+┃ ⬡ .script / .sc
+╰━━━━━━━━━━━━━━⬣
+
+╭━━━〔 ⚡ SYSTEM 〕━━━⬣
+┃ ✦ Fast | Stable | Secure
+┃ ✦ Multi Device Supported
+╰━━━━━━━━━━━━━━⬣
+
+> ✨ Powered by ${botName}
+> 🚀 Premium WhatsApp Bot Experience
+`;
+
+    try {
+        const imagePath = path.join(__dirname, '../assets/bot_image.jpg');
+
+        if (fs.existsSync(imagePath)) {
+            const imageBuffer = fs.readFileSync(imagePath);
+
+            await sock.sendMessage(chatId, {
+                image: imageBuffer,
+                caption: helpMessage,
+                contextInfo: {
+                    forwardingScore: 999,
+                    isForwarded: true,
+                    externalAdReply: {
+                        title: botName,
+                        body: 'Premium WhatsApp Bot',
+                        thumbnail: imageBuffer,
+                        mediaType: 1,
+                        renderLargerThumbnail: true,
+                        showAdAttribution: true
+                    }
+                }
+            }, { quoted: message });
+
+        } else {
+            await sock.sendMessage(chatId, { text: helpMessage });
+        }
+
+    } catch (error) {
+        console.error(error);
+        await sock.sendMessage(chatId, { text: helpMessage });
+    }
+}
+
+module.exports = helpCommand;║ ➤ .china 
 ║ ➤ .indonesia 
 ║ ➤ .japan 
 ║ ➤ .korea 
