@@ -4,11 +4,11 @@ const path = require('path');
 
 async function helpCommand(sock, chatId, message) {
 
-const botName = settings.botName || '𝐙𝐀𝐇𝐈𝐃-𝐁𝐎𝐓';
-const version = settings.version || '3.0.0';
-const owner = settings.botOwner || '𝐙𝐀𝐇𝐈𝐃-𝐁𝐎𝐓';
+    const botName = settings.botName || '𝐙𝐀𝐇𝐈𝐃-𝐁𝐎𝐓';
+    const version = settings.version || '3.0.0';
+    const owner = settings.botOwner || '𝐙𝐀𝐇𝐈𝐃-𝐁𝐎𝐓';
 
-const helpMessage = `
+    const helpMessage = `
 ╭━━━〔 🤖 ${botName} 〕━━━⬣
 ┃ ✦ Version : ${version}
 ┃ ✦ Owner   : ${owner}
@@ -103,26 +103,28 @@ const helpMessage = `
                 image: imageBuffer,
                 caption: helpMessage,
                 contextInfo: {
-                    forwardingScore: 999,
-                    isForwarded: true,
                     externalAdReply: {
                         title: botName,
                         body: 'Premium WhatsApp Bot',
-                        thumbnail: imageBuffer,
-                        mediaType: 1,
-                        renderLargerThumbnail: true,
-                        showAdAttribution: true
+                        thumbnailUrl: "https://i.imgur.com/4M34hi2.png",
+                        sourceUrl: "https://github.com/mruniquehacker/Knightbot-MD",
+                        mediaType: 0
                     }
                 }
             }, { quoted: message });
 
         } else {
-            await sock.sendMessage(chatId, { text: helpMessage });
+            await sock.sendMessage(chatId, {
+                text: helpMessage
+            }, { quoted: message });
         }
 
     } catch (error) {
-        console.error(error);
-        await sock.sendMessage(chatId, { text: helpMessage });
+        console.error('Help Command Error:', error);
+
+        await sock.sendMessage(chatId, {
+            text: helpMessage
+        }, { quoted: message });
     }
 }
 
